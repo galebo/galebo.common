@@ -6,7 +6,6 @@ import java.net.NetworkInterface;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 public class UtilsOS {
@@ -119,33 +118,12 @@ public class UtilsOS {
 				while (netInterfaces.hasMoreElements()) {
 					NetworkInterface ni = netInterfaces.nextElement();
 					InetAddress ip = (InetAddress) ni.getInetAddresses().nextElement();
-					/*if (!ip.isSiteLocalAddress() && !ip.isLoopbackAddress()
-							&& ip.getHostAddress().indexOf(":") == -1) {
-						System.out.println("Interface " + ni.getName()
-								+ " seems to be InternetInterface. I'll take it...");
-						;
-					} else {
-						ar.add(ip.getHostAddress());
-					}*/
 					ar.put(ip.getHostAddress(), ni.getName());
 				}
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("本机IP："+ar);
 		return ar;
-	}
-
-
-	
-	public static void main(String[] args) {
-		String serverIP = UtilsOS.getLocalIP();
-		System.out.println("serverIP:" + serverIP);
-		
-		Map<String,String> map = UtilsOS.getAllLocalIP();
-		Set<String> set = map.keySet();
-		for(String ip :set)
-		System.out.println("getAllLocalIP --- ip:" + ip);
 	}
 }
