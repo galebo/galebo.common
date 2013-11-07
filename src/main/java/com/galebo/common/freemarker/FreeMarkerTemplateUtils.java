@@ -18,6 +18,17 @@ public class FreeMarkerTemplateUtils {
 		}
 		return result.toString();
 	}
+	public static String processTemplateIntoString(String template, Object model){
+		if(!template.endsWith(".ftl"))
+			template=template+".ftl";
+		StringWriter result = new StringWriter();
+		try {
+			getTemplate(template).process(model, result);
+		} catch (Exception e) {
+			WorkerException.handle(e);
+		}
+		return result.toString();
+	}
 	public static Template getTemplate(String name)
 	{
 		try {
