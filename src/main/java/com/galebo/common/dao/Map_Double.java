@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 
-public class Map_Double implements RowMapper
+public class Map_Double implements RowMapper<Double>
 {
-	public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public Double mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return rs.getDouble(1);
 	}
 }

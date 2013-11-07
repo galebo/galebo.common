@@ -8,9 +8,9 @@ import org.springframework.jdbc.core.RowMapper;
 import com.galebo.common.bean.IdName;
 
 
-public class Map_IdName implements RowMapper
+public class Map_IdName implements RowMapper<IdName>
 {
-	public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public IdName mapRow(ResultSet rs, int rowNum) throws SQLException {
 		IdName bean=new IdName();
 		bean.setId(   rs.getInt(1));
 		bean.setName(             rs.getString(2));

@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 
-public class Map_Integer implements RowMapper
+public class Map_Integer implements RowMapper<Integer>
 {
-	public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+	public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return rs.getInt(1);
 	}
 }
