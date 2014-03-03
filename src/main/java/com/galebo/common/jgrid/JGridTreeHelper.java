@@ -13,7 +13,7 @@ import com.galebo.common.jgrid.JGridRow;
 
 public abstract class JGridTreeHelper {
 
-	public JGridBean getJGridBean(long parentId,int page,int pageSize) {
+	public JGridBean getJGridBean(long parentId,int page) {
 		List<JGridRow> beans=new ArrayList<JGridRow>();
 		_getSonData(beans,parentId,0);
 		
@@ -21,7 +21,7 @@ public abstract class JGridTreeHelper {
 		bean.setRows(beans);
 		bean.setPage(page);
 		bean.setRecords(beans.size());
-		bean.setTotal((getSonSize(parentId)+pageSize)/pageSize);
+		bean.setTotal(getSonSize(parentId));
 		return bean;
 	}
 	private boolean _getSonData(List<JGridRow> beans,long parentId,int level) {
