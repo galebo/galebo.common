@@ -5,12 +5,17 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.galebo.common.jgrid.JGridRow;
+/**
+ * 
+ * @author liyanzhao
+ * 用于jGrid的tree型显示
+ */
 
-public abstract class JGridHelper {
+public abstract class JGridTreeHelper {
 
 	public JGridBean getJGridBean(long parentId,int page,int pageSize) {
 		List<JGridRow> beans=new ArrayList<JGridRow>();
-		_getSonData(beans,parentId,0,page,pageSize);
+		_getSonData(beans,parentId,0);
 		
 		JGridBean bean=new JGridBean();
 		bean.setRows(beans);
@@ -19,15 +24,15 @@ public abstract class JGridHelper {
 		bean.setTotal((getSonSize(parentId)+pageSize)/pageSize);
 		return bean;
 	}
-	boolean _getSonData(List<JGridRow> beans,long parentId,int level,int page,int pageSize) {
-		List<? extends JGridAble> sonRows = getSons(parentId,level,page,pageSize);
+	private boolean _getSonData(List<JGridRow> beans,long parentId,int level) {
+		List<? extends JGridAble> sonRows = getSons(parentId,level);
 		for (Iterator<? extends JGridAble> iterator = sonRows.iterator(); iterator.hasNext();) {
 			JGridAble row =iterator.next();
 			JGridRow JGridBean1=new JGridRow();
 			JGridBean1.setCell(row.toSimpleJson());
 			beans.add(JGridBean1);
 			int size = beans.size();
-			boolean haveSon=_getSonData(beans,row.getId(),level+1,page,pageSize);
+			boolean haveSon=_getSonData(beans,row.getId(),level+1);
 
 	        beans.get(size-1).getCell().add(level);
 	        beans.get(size-1).getCell().add(parentId);
@@ -37,7 +42,7 @@ public abstract class JGridHelper {
 		}
 		return sonRows.size()>0;
 	}
-	public abstract List<? extends JGridAble>  getSons(long ParentId, int level,int page,int pageSize);
-	public abstract Long  getSonSize(long ParentId);
+	protected abstract List<? extends JGridAble>  getSons(long ParentId, int level);
+	protected abstract Long  getSonSize(long ParentId);
 	
 }
