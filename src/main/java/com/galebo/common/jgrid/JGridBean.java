@@ -44,12 +44,11 @@ public class JGridBean {
 		this.rows = rows;
 	}
 
-	@SuppressWarnings("unchecked")
-	static public JGridBean fromList(List list,int page,int pageSize,int total) {
+	static public JGridBean fromList(List<? extends JGridAble > list,int page,int pageSize,int total) {
 		ArrayList<JGridRow> beans=new ArrayList<JGridRow>();
 		for (int i = 0; i < list.size(); i++) {
 			JGridRow jgridRow=new JGridRow();
-			JGridAble object = (JGridAble)list.get(i);
+			JGridAble object = list.get(i);
 			jgridRow.setCell(object.toSimpleJson());
 			beans.add(jgridRow);
 		}

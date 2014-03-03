@@ -19,10 +19,9 @@ public abstract class JGridHelper {
 		bean.setTotal((getSonSize(parentId)+pageSize)/pageSize);
 		return bean;
 	}
-	@SuppressWarnings("unchecked")
 	boolean _getSonData(List<JGridRow> beans,long parentId,int level,int page,int pageSize) {
-		List<JGridAble> sonRows = getSons(parentId,level,page,pageSize);
-		for (Iterator<JGridAble> iterator = sonRows.iterator(); iterator.hasNext();) {
+		List<? extends JGridAble> sonRows = getSons(parentId,level,page,pageSize);
+		for (Iterator<? extends JGridAble> iterator = sonRows.iterator(); iterator.hasNext();) {
 			JGridAble row =iterator.next();
 			JGridRow JGridBean1=new JGridRow();
 			JGridBean1.setCell(row.toSimpleJson());
@@ -38,8 +37,7 @@ public abstract class JGridHelper {
 		}
 		return sonRows.size()>0;
 	}
-	@SuppressWarnings("unchecked")
-	public abstract List  getSons(long ParentId, int level,int page,int pageSize);
+	public abstract List<? extends JGridAble>  getSons(long ParentId, int level,int page,int pageSize);
 	public abstract Long  getSonSize(long ParentId);
 	
 }

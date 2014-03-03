@@ -11,7 +11,6 @@ import java.util.TreeMap;
 public class UtilsOS {
 
 	public static String sIP = ""; 
-	public static Map<String,String> sIPMap = new TreeMap<String,String>();
 	
 	/**
 	 * 判断当前操作是否Windows.
@@ -71,12 +70,12 @@ public class UtilsOS {
 	}
 
 	/**
-	 * 获取本机ip所有的地址，并自动区分Windows还是linux操作系统
+	 * 获取本机ip所有的地址，并自动区分Windows还是linux操作系统,返回Map<ip：name>
 	 * 
-	 * @return String
+	 * @return Map<String,String>
 	 */
 	public static Map<String,String> getLocalAllIps() {
-		if (sIPMap != null && sIPMap.size() > 0) return sIPMap;
+		Map<String,String> sIPMap = new TreeMap<String,String>();
 		
 		InetAddress ip = null;
 		try {
@@ -84,7 +83,7 @@ public class UtilsOS {
 				ip = InetAddress.getLocalHost();
 				sIPMap.put(ip.getHostAddress(), ip.getHostName());
 			} else {// 如果是Linux操作系统
-				Enumeration<NetworkInterface> netInterfaces = (Enumeration<NetworkInterface>) NetworkInterface.getNetworkInterfaces();
+				Enumeration<NetworkInterface> netInterfaces =NetworkInterface.getNetworkInterfaces();
 				while (netInterfaces.hasMoreElements()) {
 					NetworkInterface ni = netInterfaces.nextElement();
 					Enumeration<InetAddress> ips = ni.getInetAddresses();
@@ -92,8 +91,7 @@ public class UtilsOS {
 					while (ips.hasMoreElements()) {
 						ip = ips.nextElement();
 				
-						if (!ip.isLoopbackAddress() // 127.开头的都是lookback地址
-								&& ip.getHostAddress().indexOf(":") == -1) {
+						if (!ip.isLoopbackAddress() && ip.getHostAddress().indexOf(":") == -1) {// 127.开头的都是lookback地址
 							sIPMap.put(ip.getHostAddress(), ni.getName());
 						}
 					}
@@ -104,26 +102,26 @@ public class UtilsOS {
 		}
 		return sIPMap;
 	}
-
+	//返回Map<ip：name>
 	public static Map<String,String> getAllLocalIP() {
-		Map<String,String> ar = new HashMap<String,String>();
+		Map<String,String> map = new HashMap<String,String>();
 		
 		try {
 			// 如果是Windows操作系统
 			if (isWindowsOS()) {
 				InetAddress ip = InetAddress.getLocalHost();
-				ar.put(ip.getHostAddress(), ip.toString());
+				map.put(ip.getHostAddress(), ip.toString());
 			}else{
 				Enumeration<NetworkInterface> netInterfaces = NetworkInterface.getNetworkInterfaces();
 				while (netInterfaces.hasMoreElements()) {
 					NetworkInterface ni = netInterfaces.nextElement();
 					InetAddress ip = (InetAddress) ni.getInetAddresses().nextElement();
-					ar.put(ip.getHostAddress(), ni.getName());
+					map.put(ip.getHostAddress(), ni.getName());
 				}
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		return ar;
+		return map;
 	}
 }
